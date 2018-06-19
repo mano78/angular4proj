@@ -12,18 +12,18 @@
                   <p>{{ dish.description }}</p>
               </mat-card-content>
               <mat-card-actions>
-                  <button md-button [routerLink]="['/dishdetail', prev]"><span class="fa 
+                  <button mat-button [routerLink]="['/dishdetail', prev]"><span class="fa 
                     fa-chevron-left fa-lg"></span></button>
                   <button mat-button>LIKE</button>
                   <button mat-button>SHARE</button>
                   <button mat-button (click)="goBack()">BACK</button>
                   <span class="flex-spacer"></span>
-                  <button md-button [routerLink]="['/dishdetail', next]"><span class="fa 
+                  <button mat-button [routerLink]="['/dishdetail', next]"><span class="fa 
                     fa-chevron-right fa-lg"></span></button>
               </mat-card-actions>
           </mat-card>
           <div [hidden]="dish">
-            <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
+            <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
           </div>
   </div>
 
@@ -36,8 +36,31 @@
                   <p mat-line><span> -- {{comment.author}} {{comment.date | date}}</span></p>
               </mat-list-item>
           </mat-list>
+          <form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+            <p>
+                <mat-input-container dividerColor="{{ (formErrors.author) ? 'warn' : 'primary'}}">
+                    <input matInput formControlName="author" placeholder="Name" type="text" required>
+                    <mat-hint>
+                        <span [hidden]="!(formErrors.author)">{{ formErrors.author }}</span>
+                    </mat-hint>
+                </mat-input-container>
+            </p>
+            <p>
+                <mat-slider min="1" max="5" tickInterval="1" step="1" formControlName="rating"></mat-slider>
+            </p>
+            <p>
+                <mat-input-container dividerColor="{{ (formErrors.comment) ? 'warn' : 'primary'}}">
+                    <textarea matInput formControlName="comment" placeholder="Your Comment" rows=6 required></textarea>
+                    <mat-hint>
+                        <span [hidden]="!(formErrors.comment)">{{ formErrors.comment }}</span>
+                    </mat-hint>
+                </mat-input-container>  
+            </p>
+            <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">Submit</button>
+        </form>
   </div>
   <div [hidden]="dish">
-    <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
+    <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
   </div>
+
 </div>
